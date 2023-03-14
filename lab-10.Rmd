@@ -15,13 +15,74 @@ library(openintro)
 
 ### Exercise 1
 
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
+The linear model: score = 3.88 + .067(average beauty)
+
+R^2 = 3.5%
+Adjusted R^2 = 3.3%
+
+```{r linear-beauty}
+m_bty <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(score ~ bty_avg, data = evals)
+
+tidy(m_bty)
+
+glance(m_bty)$r.squared
+
+glance(m_bty)$adj.r.squared
+```
 
 ### Exercise 2
 
-...
+The linear model: score = 3.75 + .07(beauty) + .17(gender)
 
-Add exercise headings as needed.
+R^2 = 5.9%
+Adjusted R^2 = 5.5%
+
+```{r beauty-gender}
+m_bty_gen <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(score ~ bty_avg + gender, data = evals)
+
+tidy(m_bty_gen)
+
+glance(m_bty_gen)$r.squared
+
+glance(m_bty_gen)$adj.r.squared
+```
+
+### Exercise 3
+
+Intercept: Female instructors who have a beauty rating of 0 are predicted, on average, to receive a course evaluation score of about 3.75
+
+Slope of gender: All else held constant, course evaluation scores are predicted, on average, to be .17 points higher for male instructors compared to female instructors.
+
+### Exercise 4
+
+The model including average beauty and gender explains about 5.9% of the variance in course evaluation scores.
+
+### Exercise 5
+
+Linear model for male instructors: score = 3.92 + .07(beauty)
+
+### Exercise 6
+
+For two professors who had the same beauty rating, this model predicts that male professors would have higher course evaluation scores.
+
+### Exercise 7
+
+This is a question about an interaction, but I only tested main effects in my previous model. So now, let's run a model including the interaction term to answer this question.
+
+```{r interaction}
+m_bty_gen <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(score ~ bty_avg * gender, data = evals)
+
+tidy(m_bty_gen)
+
+glance(m_bty_gen)$r.squared
+
+glance(m_bty_gen)$adj.r.squared
+```
+
+The slope of the interaction is about .08, indicating that the slope for beauty predicting course evaluation scores differs between male versus female instructors. Specifically, the slope for beauty is predicted to be about .08 points greater for male instructors than for female instructors, meaning there is a stronger relationship between beauty and course evaluations for male instructors than for female instructors.
