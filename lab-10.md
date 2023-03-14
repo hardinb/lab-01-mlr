@@ -1,7 +1,7 @@
 Lab 10 - Grading the professor, Pt. 2
 ================
-Insert your name here
-Insert date here
+Ben Hardin
+3/14/2023
 
 ### Load packages and data
 
