@@ -82,7 +82,7 @@ Intercept: Female instructors who have a beauty rating of 0 are
 predicted, on average, to receive a course evaluation score of about
 3.75
 
-Slope of gender: All else held constant, course evaluation scores are
+Slope of gender: Holding beauty constant, course evaluation scores are
 predicted, on average, to be .17 points higher for male instructors
 compared to female instructors.
 
