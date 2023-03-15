@@ -74,9 +74,12 @@ For two professors who had the same beauty rating, this model predicts that male
 This is a question about an interaction, but I only tested main effects in my previous model. So now, let's run a model including the interaction term to answer this question.
 
 ```{r interaction}
+evals <- evals %>%
+  mutate(bty_centered = (bty_avg - mean(bty_avg)))
+
 m_bty_gen <- linear_reg() %>%
   set_engine("lm") %>%
-  fit(score ~ bty_avg * gender, data = evals)
+  fit(score ~ bty_centered * gender, data = evals)
 
 tidy(m_bty_gen)
 
@@ -85,4 +88,75 @@ glance(m_bty_gen)$r.squared
 glance(m_bty_gen)$adj.r.squared
 ```
 
+```{r plot}
+ggplot(evals, aes(x = bty_centered, y = score, color = gender))+
+  geom_point(aes(shape = gender))+
+  geom_smooth(method = "lm", se = F)
+```
+
 The slope of the interaction is about .08, indicating that the slope for beauty predicting course evaluation scores differs between male versus female instructors. Specifically, the slope for beauty is predicted to be about .08 points greater for male instructors than for female instructors, meaning there is a stronger relationship between beauty and course evaluations for male instructors than for female instructors.
+
+
+### Exercise 8
+
+...
+
+### Exercise 9
+
+...
+
+### Exercise 10
+
+```{r rank}
+m_bty_rank <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(score ~ bty_avg + rank, data = evals)
+
+tidy(m_bty_rank)
+```
+
+### Exercise 11
+
+Level
+
+### Exercise 12
+
+```{r weak}
+m_level <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(score ~ cls_level, data = evals)
+
+tidy(m_level)
+```
+
+### Exercise 13
+
+Kick out did eval
+
+### Exercise 14
+
+```{r big-model}
+m_full <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(score ~ rank + ethnicity + gender + language + age + cls_perc_eval + cls_students + cls_level + cls_profs + cls_credits + bty_avg, data = evals)
+
+tidy(m_full)
+
+glance(m_full)$r.squared
+
+glance(m_full)$adj.r.squared
+```
+
+### Exercise 15
+
+```{r final-model}
+m_final <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(score ~ rank + ethnicity + gender + language + age + cls_perc_eval + cls_credits + bty_avg, data = evals)
+
+tidy(m_final)
+
+glance(m_final)$r.squared
+
+glance(m_final)$adj.r.squared
+```
