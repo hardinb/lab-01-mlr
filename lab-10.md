@@ -199,9 +199,19 @@ tidy(m_bty_rank)
 
 ### Exercise 11
 
-Level
+I predicted that the level variable would be one of the weakest
+predictors of course evaluations, because I don’t have any particular
+sense that teachers of upper level classes would be any better or worse
+than teachers of lower level classes, or any reason to think that
+something about being in an upper level vs. a lower level class would be
+associated with giving either higher or lower course evaluations.
 
 ### Exercise 12
+
+After running a regression with level as a predictor, it seems like
+level is a relatively weak predictor, but not any weaker than some of
+the seemingly important predictors of course evaluations. It is a
+slightly stronger bivariate predictor than beauty, for instance.
 
 ``` r
 m_level <- linear_reg() %>%
@@ -219,9 +229,17 @@ tidy(m_level)
 
 ### Exercise 13
 
-Kick out did eval
+If we include the number of students in each class and the percent of
+students in each class completing evaluations, then we should should not
+include the number of students in each class completing evaluations,
+because all of the information in this variable is completely redundant
+with the information in these two variables (because percent completing
+= number completing / total number in class)
 
 ### Exercise 14
+
+Let’s now fit a model with all the variables we have as predictors of
+course evaluation scores.
 
 ``` r
 m_full <- linear_reg() %>%
@@ -262,6 +280,16 @@ glance(m_full)$adj.r.squared
 
 ### Exercise 15
 
+After trying out several alternative models, I settled on this one. It
+has an adjusted R^2 = .143, making it a slightly better (in terms of
+variance explained) and noticeably simpler model than the full model
+(R^2 = .141).
+
+The linear model: score = 3.59 + -.10(tenure track) + -.03(tenured) +
+.19(non-minority ethnicity) + .18(male) + -.13(non-English language) +
+-.007(age) + .005(% students completing evaluations) + .50(number of
+credits) + .06(beauty)
+
 ``` r
 m_final <- linear_reg() %>%
   set_engine("lm") %>%
@@ -295,3 +323,29 @@ glance(m_final)$adj.r.squared
 ```
 
     ## [1] 0.143858
+
+### Exercise 16
+
+Slope of age: All else held constant, each year that an instructor is
+older is predicted, on average, to be associated with a .007 point lower
+course evaluation score.
+
+Slope of ethnicity: All else held constant, teachers who are not ethnic
+minorities are predicted, on average, to have course evaluation scores
+that are .19 points higher than teachers who are ethnic minorities.
+
+### Exercise 17
+
+Based on this model, a high course evaluation score at UT Austin would
+be given to multi-credit courses taught by teaching faculty who were
+educated at an English-speaking institution, who are white, young,
+relatively attractive men.
+
+### Exercise 18
+
+Although these results might be somewhat generalizable to other large,
+public universities in the south, I would not be comfortable
+generalizing to all professors at all institutions. For instance, more
+teaching-focused colleges, HBCUs, and universities outside the US are
+all examples of colleges/universities where I could see some of these
+predictors showing different patterns.
