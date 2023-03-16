@@ -71,7 +71,7 @@ For two professors who had the same beauty rating, this model predicts that male
 
 ### Exercise 7
 
-This is a question about an interaction, but I only tested main effects in my previous model. So now, let's run a model including the interaction term to answer this question.
+This is a question about an interaction, but I only tested main effects in my previous model. So now, let's run a model including the interaction term to answer this question. I also made a centered version of the average beauty score, to make the slopes easier to interpret.
 
 ```{r interaction}
 evals <- evals %>%
@@ -88,24 +88,26 @@ glance(m_bty_gen)$r.squared
 glance(m_bty_gen)$adj.r.squared
 ```
 
-```{r plot}
-ggplot(evals, aes(x = bty_centered, y = score, color = gender))+
-  geom_point(aes(shape = gender))+
-  geom_smooth(method = "lm", se = F)
-```
-
 The slope of the interaction is about .08, indicating that the slope for beauty predicting course evaluation scores differs between male versus female instructors. Specifically, the slope for beauty is predicted to be about .08 points greater for male instructors than for female instructors, meaning there is a stronger relationship between beauty and course evaluations for male instructors than for female instructors.
 
 
 ### Exercise 8
 
-...
+The adjusted R^2 when only beauty is included in the model is .033, while the adjusted R^2 when both beauty, gender, and the beauty x gender interaction are included in the model is .065. This indicates that the addition of gender to the model increases the percentage of variance explained by the model, and that gender carries some additional explanatory power above and beyond beauty for predicting course evaluation scores.
 
 ### Exercise 9
 
-...
+When beauty was entered as a standalone predictor, it had a slope of about .07. The slope was similar, but slightly larger, in the model including both main effects of beauty and of gender. In the model including the beauty x gender interaction, the slope decreased to about .03. Thus, adding the interaction to the model has changed the estimated effect of beauty on evaluation scores.
 
 ### Exercise 10
+
+The linear model: score = 3.98 + .07(beauty) + -.16(tenure track) + -.13(tenured)
+
+Intercept: Teaching faculty with a beauty score of 0 are predicted, on average, to have a course evaluation score of about 3.98.
+
+Slope of beauty: Holding rank constant, course evaluation scores are predicted, on average, to be .07 points higher for each 1 point that a professor's beauty score is greater.
+
+Slopes of rank: Holding beauty constant, course evaluation scores are predicted, on average, to be .16 points lower for tenure track faculty, and about .13 points lower for tenured faculty, compared to teaching faculty.
 
 ```{r rank}
 m_bty_rank <- linear_reg() %>%
